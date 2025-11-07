@@ -2,8 +2,12 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { IUser, ProfileForm } from "../../interfaces/userInterface";
-import { updateProfileAction } from "../../api/actions/DevTreeAction";
+import {
+  updateProfileAction,
+  uploadImageProfileAction,
+} from "../../api/actions/DevTreeAction";
 import { toast } from "sonner";
+import type { ChangeEvent } from "react";
 
 export function Profile() {
   const queryClient = useQueryClient();
@@ -33,6 +37,30 @@ export function Profile() {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImageProfileAction,
+    onError: (error) => {
+      toast.error(error.message, {
+        style: { color: "red" },
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(data, {
+        style: { color: "green" },
+      });
+      queryClient.setQueryData(["user"], (prevData: IUser) => {
+        return {
+          ...prevData,
+          image: data.image,
+        };
+      });
+    },
+  });
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      uploadImageMutation.mutate(e.target.files[0]);
+    }
+  };
   const handleUserProfileForm = (formData: ProfileForm) => {
     updateProfileMutation.mutate(formData);
   };
@@ -72,14 +100,14 @@ export function Profile() {
       </div>
 
       <div className="grid grid-cols-1 gap-2">
-        <label htmlFor="handle">Imagen:</label>
+        <label htmlFor="image">Imagen:</label>
         <input
           id="image"
           type="file"
-          name="handle"
+          name="image"
           className="border-none bg-slate-100 rounded-lg p-2"
           accept="image/*"
-          onChange={() => {}}
+          onChange={handleChangeImage}
         />
       </div>
 
