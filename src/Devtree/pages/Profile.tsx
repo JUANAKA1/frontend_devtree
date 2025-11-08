@@ -62,7 +62,10 @@ export function Profile() {
     }
   };
   const handleUserProfileForm = (formData: ProfileForm) => {
-    updateProfileMutation.mutate(formData);
+    const user = queryClient.getQueryData<IUser>(["user"])!;
+    user.handle = formData.handle;
+    user.description = formData.description;
+    updateProfileMutation.mutate(user);
   };
   return (
     <form

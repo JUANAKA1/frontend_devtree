@@ -5,6 +5,7 @@ export interface IUser {
   email: string;
   description: string;
   image: string;
+  links: string;
 }
 
 export interface RegisterForm extends Pick<IUser, "handle" | "email" | "name"> {

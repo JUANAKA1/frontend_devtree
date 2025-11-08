@@ -5,6 +5,7 @@ import { AuthLayout } from "../auth/layout/AuthLayout";
 import AppLayout from "../Devtree/layout/AppLayout";
 import { Profile } from "../Devtree/pages/Profile";
 import { LinkTree } from "../Devtree/pages/LinkTree";
+import { Handle } from "../Devtree/pages/Handle";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,16 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/:handle",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <Handle />,
       },
     ],
   },
