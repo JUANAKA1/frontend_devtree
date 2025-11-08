@@ -7,6 +7,10 @@ export interface IUser {
   image: string;
   links: string;
 }
+export type UserHandle = Pick<
+  IUser,
+  "description" | "handle" | "name" | "image" | "links"
+>;
 
 export interface RegisterForm extends Pick<IUser, "handle" | "email" | "name"> {
   password: string;

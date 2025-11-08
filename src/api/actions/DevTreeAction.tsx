@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../axios";
-import type { IUser } from "../../interfaces/userInterface";
+import type { IUser, UserHandle } from "../../interfaces/userInterface";
 
 export const getUserAction = async (): Promise<IUser> => {
   try {
@@ -42,6 +42,16 @@ export const uploadImageProfileAction = async (file: File) => {
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       // Si el backend devuelve un mensaje de error
+      throw new Error(error.response.data?.message);
+    }
+  }
+};
+export const getUserHandleAction = async (handle: string) => {
+  try {
+    const { data } = await api(`/api/user/${handle}`);
+    return data.user as UserHandle;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data?.message);
     }
   }

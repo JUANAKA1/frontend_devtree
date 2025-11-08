@@ -6,6 +6,8 @@ import AppLayout from "../Devtree/layout/AppLayout";
 import { Profile } from "../Devtree/pages/Profile";
 import { LinkTree } from "../Devtree/pages/LinkTree";
 import { Handle } from "../Devtree/pages/Handle";
+import { NotFound } from "../Devtree/components/NotFound";
+import { Home } from "../Devtree/pages/Home";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,20 @@ export const router = createBrowserRouter([
         element: <Handle />,
       },
     ],
+  },
+  {
+    path: "/404",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <NotFound />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <Home />,
   },
   {
     path: "*",
