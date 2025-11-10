@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import type { LoginForm } from "../../interfaces/userInterface";
 import api from "../../api/axios";
@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { isAxiosError } from "axios";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const defaultValues: LoginForm = {
     email: "",
     password: "",
@@ -27,6 +28,7 @@ export const Login = () => {
           color: "green",
         },
       });
+      navigate("/admin");
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         toast.error(error.response.data.message, {

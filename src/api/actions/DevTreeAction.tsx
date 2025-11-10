@@ -56,3 +56,18 @@ export const getUserHandleAction = async (handle: string) => {
     }
   }
 };
+
+export const searchByHandleAction = async (handle: string) => {
+  try {
+    const response = await api.post<{ message: string }>("/api/user/search", {
+      handle,
+    });
+    const data= response.data.message
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data?.message);
+    }
+
+  }
+};
